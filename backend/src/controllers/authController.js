@@ -90,6 +90,11 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' })
     }
 
+    // TYPE GUARD: Prevents NoSQL injection and bcrypt type errors
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ message: 'Invalid input' })
+    }
+
     const user = await User.findOne({ email })
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' })

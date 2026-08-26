@@ -4,8 +4,11 @@ const pino = require('pino')
 const mongoose = require('mongoose')
 
 const logger = pino({ level: 'info' })
+
+// Escapes special characters for safe usage inside RegExp constructors
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
+// 1. Fetch Categories
 const getCategories = async (req, res) => {
   try {
     const categories = await Category.find({ userId: req.user.id })
@@ -17,16 +20,22 @@ const getCategories = async (req, res) => {
   }
 }
 
+// 2. Create Category
 const createCategory = async (req, res) => {
   try {
     const { name, color } = req.body
 
+    // Type and presence validation
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ message: 'Category name is required' })
     }
 
+    // Input normalization: trim leading/trailing whitespace before lookup & creation
+    const normalizedName = name.trim()
+
+    // Case-insensitive duplicate search using normalized string
     const existing = await Category.findOne({
-      name: { $regex: new RegExp(`^${escapeRegex(name)}$`, 'i') },
+      name: { $regex: new RegExp(`^${escapeRegex(normalizedName)}$`, 'i') },
       userId: req.user.id
     })
 
@@ -35,12 +44,12 @@ const createCategory = async (req, res) => {
     }
 
     const category = await Category.create({
-      name,
+      name: normalizedName,
       color: color || '#7B5EA7',
       userId: req.user.id
     })
 
-    logger.info(`Category created: ${name} for user: ${req.user.id}`)
+    logger.info(`Category created: ${normalizedName} for user: ${req.user.id}`)
     res.status(201).json(category)
   } catch (error) {
     logger.error(`Create category error: ${error.message}`)
@@ -48,9 +57,17 @@ const createCategory = async (req, res) => {
   }
 }
 
+// 3. Delete Category
 const deleteCategory = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id)
+    const { id } = req.params
+
+    // Early validation: Prevent Mongoose CastError on malformed ObjectIds (returns 400 instead of 500)
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid category ID' })
+    }
+
+    const category = await Category.findById(id)
 
     if (!category) {
       return res.status(404).json({ message: 'Category not found' })
@@ -70,11 +87,19 @@ const deleteCategory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid option. Use move or delete' })
     }
 
-    const generalCategory = await Category.findOne({
-      userId: req.user.id,
-      isDefault: true
-    })
+    let generalCategory = null
+    if (option === 'move') {
+      generalCategory = await Category.findOne({
+        userId: req.user.id,
+        isDefault: true
+      })
 
+      if (!generalCategory) {
+        return res.status(404).json({ message: 'Default General category not found' })
+      }
+    }
+
+    // Atomic MongoDB Transaction to ensure category and associated notes stay consistent
     const session = await mongoose.startSession()
 
     try {
@@ -91,7 +116,7 @@ const deleteCategory = async (req, res) => {
           logger.info(`Notes deleted with category: ${category.name}`)
         }
 
-        await Category.findByIdAndDelete(req.params.id).session(session)
+        await Category.findByIdAndDelete(id, { session })
       })
     } finally {
       await session.endSession()
