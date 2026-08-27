@@ -21,10 +21,6 @@ function NoteEditor() {
   const isEditMode = !!noteId && !categoryName
   const existingNote = noteId ? notes.find(n => n._id === noteId) : null
 
-  console.log('noteId from params:', noteId)
-  console.log('all note ids:', notes.map(n => n._id))
-  console.log('existingNote found:', existingNote)
-
   const editor = useEditor({
     extensions: [StarterKit],
     content: '',
@@ -58,14 +54,27 @@ function NoteEditor() {
       return
     }
 
+    if (isEditMode && !existingNote) {
+      setError('Note not found.')
+      return
+    }
+
     try {
       setLoading(true)
       if (isEditMode && existingNote) {
-        await editNote(existingNote._id, title, editor.getHTML())
-        navigate(`/category/${existingNote.categoryId?.name}`)
+        const result = await editNote(existingNote._id, title, editor.getHTML())
+        if (result?.success) {
+          navigate(`/category/${encodeURIComponent(existingNote.categoryId?.name)}`)
+        } else {
+          setError(result?.message || 'Failed to save note.')
+        }
       } else {
-        await addNote(title, editor.getHTML(), selectedCategory)
-        navigate(`/category/${selectedCategory}`)
+        const result = await addNote(title, editor.getHTML(), selectedCategory)
+        if (result?.success) {
+          navigate(`/category/${encodeURIComponent(selectedCategory)}`)
+        } else {
+          setError(result?.message || 'Failed to save note.')
+        }
       }
     } catch (err) {
       setError('Failed to save note. Try again.')
@@ -171,44 +180,28 @@ function NoteEditor() {
         )}
 
         <div className="toolbar">
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleBold().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}
             className={editor?.isActive('bold') ? 'toolbar-btn active' : 'toolbar-btn'}
           ><b>B</b></button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleItalic().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}
             className={editor?.isActive('italic') ? 'toolbar-btn active' : 'toolbar-btn'}
           ><i>I</i></button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleStrike().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}
             className={editor?.isActive('strike') ? 'toolbar-btn active' : 'toolbar-btn'}
           ><s>S</s></button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             className={editor?.isActive('heading', { level: 1 }) ? 'toolbar-btn active' : 'toolbar-btn'}
           >H1</button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
             className={editor?.isActive('heading', { level: 2 }) ? 'toolbar-btn active' : 'toolbar-btn'}
           >H2</button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}
             className={editor?.isActive('bulletList') ? 'toolbar-btn active' : 'toolbar-btn'}
           >• List</button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}
             className={editor?.isActive('orderedList') ? 'toolbar-btn active' : 'toolbar-btn'}
           >1. List</button>
-          <button
-            type="button"
-            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}
             className={editor?.isActive('codeBlock') ? 'toolbar-btn active' : 'toolbar-btn'}
           >{'</>'}</button>
         </div>
@@ -222,4 +215,4 @@ function NoteEditor() {
   )
 }
 
-export default NoteEditor
+export default NoteEditor;

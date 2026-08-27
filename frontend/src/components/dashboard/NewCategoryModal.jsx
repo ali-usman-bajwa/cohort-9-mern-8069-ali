@@ -5,7 +5,7 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (name.trim() === '') {
       setError('Category name cannot be empty.')
       return
@@ -20,8 +20,12 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
       return
     }
 
-    onAdd(name.trim())
-    onClose()
+    const success = await onAdd(name.trim())
+    if (success) {
+      onClose()
+    } else {
+      setError('Failed to create category. Try again.')
+    }
   }
 
   return (

@@ -485,3 +485,12 @@
   margin-top: 100px;
   color: #95A5A6;
 }
+
+.note-card--selectable {
+  cursor: pointer;
+  border-left: 3px solid #2C3E50;
+}
+
+.note-card--selectable:hover {
+  background-color: #F2F3F4;
+}

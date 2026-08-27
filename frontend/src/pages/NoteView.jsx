@@ -10,6 +10,7 @@ function NoteView() {
   const [showCategoryModal, setShowCategoryModal] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('')
   const [loading, setLoading] = useState(false)
+  const [modalError, setModalError] = useState('')
 
   const note = notes.find(n => n._id === noteId)
   const category = note ? categories.find(cat => cat._id === note.categoryId?._id) : null
@@ -28,22 +29,25 @@ function NoteView() {
   }
 
   const handleChangeCategory = async () => {
-    if (selectedCategory && selectedCategory !== note.categoryId?.name) {
-      try {
-        setLoading(true)
-        const result = await editNote(note._id, note.title, note.content, selectedCategory)
-        if (result?.success) {
-          navigate(`/category/${encodeURIComponent(selectedCategory)}`)
-        } else {
-          console.error('Failed to change category:', result?.message)
-        }
-      } catch (err) {
-        console.error('Error changing category:', err)
-      } finally {
-        setLoading(false)
-      }
+    if (!selectedCategory || selectedCategory === note.categoryId?.name) {
+      setShowCategoryModal(false)
+      return
     }
-    setShowCategoryModal(false)
+
+    try {
+      setLoading(true)
+      setModalError('')
+      const result = await editNote(note._id, note.title, note.content, selectedCategory)
+      if (result?.success) {
+        navigate(`/category/${encodeURIComponent(selectedCategory)}`)
+      } else {
+        setModalError(result?.message || 'Failed to change category. Try again.')
+      }
+    } catch (err) {
+      setModalError('Failed to change category. Try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -60,6 +64,7 @@ function NoteView() {
               className="btn-change-category"
               onClick={() => {
                 setSelectedCategory(note.categoryId?.name || '')
+                setModalError('')
                 setShowCategoryModal(true)
               }}
             >
@@ -118,11 +123,15 @@ function NoteView() {
                 </option>
               ))}
             </select>
+            {modalError && <p className="error-msg">{modalError}</p>}
             <div className="modal-buttons">
               <button
                 type="button"
                 className="modal-cancel"
-                onClick={() => setShowCategoryModal(false)}
+                onClick={() => {
+                  setShowCategoryModal(false)
+                  setModalError('')
+                }}
               >
                 Cancel
               </button>
@@ -142,4 +151,4 @@ function NoteView() {
   )
 }
 
-export default NoteView
+export default NoteView;

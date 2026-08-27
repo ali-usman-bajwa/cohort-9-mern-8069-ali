@@ -21,7 +21,12 @@ function CategoryCard({ name, description, noteCount, isDefault, color, onDelete
         tabIndex={0}
         role="button"
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.target !== e.currentTarget) return
+          if (e.key === 'Enter') {
+            navigate(`/category/${encodeURIComponent(name)}`)
+          }
+          if (e.key === ' ') {
+            e.preventDefault()
             navigate(`/category/${encodeURIComponent(name)}`)
           }
         }}
@@ -134,4 +139,4 @@ function CategoryCard({ name, description, noteCount, isDefault, color, onDelete
   )
 }
 
-export default CategoryCard
+export default CategoryCard;
