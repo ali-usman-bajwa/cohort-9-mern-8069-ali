@@ -31,6 +31,8 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
       } else {
         setError('Failed to create category. Try again.')
       }
+    } catch (err) {
+      setError('Failed to create category. Try again.')
     } finally {
       setIsSubmitting(false)
     }
