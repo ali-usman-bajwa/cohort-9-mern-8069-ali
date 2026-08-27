@@ -93,7 +93,7 @@ function NoteEditor() {
             <button type="button" className="btn-cancel" onClick={() => navigate(-1)}>
               Cancel
             </button>
-            <button type="button" className="btn-save" onClick={handleSave} disabled={loading}>
+            <button type="button" className="btn-save" onClick={handleSave} disabled={loading || !editor}>
               {loading ? 'Saving...' : 'Save Note'}
             </button>
           </div>
@@ -180,30 +180,70 @@ function NoteEditor() {
         )}
 
         <div className="toolbar">
-          <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleBold().run()}
             className={editor?.isActive('bold') ? 'toolbar-btn active' : 'toolbar-btn'}
-          ><b>B</b></button>
-          <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}
+          >
+            <b>B</b>
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
             className={editor?.isActive('italic') ? 'toolbar-btn active' : 'toolbar-btn'}
-          ><i>I</i></button>
-          <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}
+          >
+            <i>I</i>
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleStrike().run()}
             className={editor?.isActive('strike') ? 'toolbar-btn active' : 'toolbar-btn'}
-          ><s>S</s></button>
-          <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          >
+            <s>S</s>
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
             className={editor?.isActive('heading', { level: 1 }) ? 'toolbar-btn active' : 'toolbar-btn'}
-          >H1</button>
-          <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          >
+            H1
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
             className={editor?.isActive('heading', { level: 2 }) ? 'toolbar-btn active' : 'toolbar-btn'}
-          >H2</button>
-          <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}
+          >
+            H2
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
             className={editor?.isActive('bulletList') ? 'toolbar-btn active' : 'toolbar-btn'}
-          >• List</button>
-          <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          >
+            • List
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
             className={editor?.isActive('orderedList') ? 'toolbar-btn active' : 'toolbar-btn'}
-          >1. List</button>
-          <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          >
+            1. List
+          </button>
+          <button
+            type="button"
+            disabled={!editor}
+            onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
             className={editor?.isActive('codeBlock') ? 'toolbar-btn active' : 'toolbar-btn'}
-          >{'</>'}</button>
+          >
+            {'</>'}
+          </button>
         </div>
 
         <div className="note-editor-content">
