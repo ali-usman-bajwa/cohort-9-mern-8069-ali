@@ -5,10 +5,8 @@ const mongoose = require('mongoose')
 
 const logger = pino({ level: 'info' })
 
-// Escapes special characters for safe usage inside RegExp constructors
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-// 1. Fetch Categories
 const getCategories = async (req, res) => {
   try {
     const categories = await Category.find({ userId: req.user.id })
@@ -20,20 +18,16 @@ const getCategories = async (req, res) => {
   }
 }
 
-// 2. Create Category
 const createCategory = async (req, res) => {
   try {
     const { name, color } = req.body
 
-    // Type and presence validation
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ message: 'Category name is required' })
     }
 
-    // Input normalization: trim leading/trailing whitespace before lookup & creation
     const normalizedName = name.trim()
 
-    // Case-insensitive duplicate search using normalized string
     const existing = await Category.findOne({
       name: { $regex: new RegExp(`^${escapeRegex(normalizedName)}$`, 'i') },
       userId: req.user.id
@@ -57,12 +51,10 @@ const createCategory = async (req, res) => {
   }
 }
 
-// 3. Delete Category
 const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params
 
-    // Early validation: Prevent Mongoose CastError on malformed ObjectIds (returns 400 instead of 500)
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid category ID' })
     }
@@ -99,7 +91,6 @@ const deleteCategory = async (req, res) => {
       }
     }
 
-    // Atomic MongoDB Transaction to ensure category and associated notes stay consistent
     const session = await mongoose.startSession()
 
     try {
@@ -124,7 +115,6 @@ const deleteCategory = async (req, res) => {
 
     logger.info(`Category deleted: ${category.name}`)
     res.status(200).json({ message: 'Category deleted successfully' })
-
   } catch (error) {
     logger.error(`Delete category error: ${error.message}`)
     res.status(500).json({ message: 'Server error' })
