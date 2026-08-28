@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test dotenv -e .env.test -- mocha tests/*.test.js --timeout 10000",
-    "test:auth": "cross-env NODE_ENV=test dotenv -e .env.test -- mocha tests/auth.test.js --timeout 10000",
-    "test:category": "cross-env NODE_ENV=test dotenv -e .env.test -- mocha tests/category.test.js --timeout 10000",
-    "test:note": "cross-env NODE_ENV=test dotenv -e .env.test -- mocha tests/note.test.js --timeout 10000"
+    "test": "cross-env NODE_ENV=test dotenv -e .env.test -o -- mocha tests/*.test.js --timeout 10000",
+    "test:auth": "cross-env NODE_ENV=test dotenv -e .env.test -o -- mocha tests/auth.test.js tests/teardown.js --timeout 10000",
+    "test:category": "cross-env NODE_ENV=test dotenv -e .env.test -o -- mocha tests/category.test.js tests/teardown.js --timeout 10000",
+    "test:note": "cross-env NODE_ENV=test dotenv -e .env.test -o -- mocha tests/note.test.js tests/teardown.js --timeout 10000"
   },
   "keywords": [],
   "author": "",
