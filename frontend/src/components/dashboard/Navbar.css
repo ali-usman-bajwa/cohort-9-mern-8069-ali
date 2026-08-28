@@ -1,0 +1,121 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 68px;
+  background: #2C3E50;
+  color: white;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.4);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 200px;
+}
+
+.navbar-logo {
+  font-size: 26px;
+}
+
+.navbar-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.navbar-center {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 32px;
+}
+
+.navbar-search-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.navbar-search {
+  flex: 1;
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+.navbar-search::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-search-btn {
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  transition: background 0.2s;
+}
+
+.navbar-search-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-clear {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: color 0.2s;
+}
+
+.search-clear:hover {
+  color: white;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 200px;
+  justify-content: flex-end;
+}
+
+.navbar-avatar {
+  display: none;
+}
+
+.navbar-username {
+  display: none;
+}
+
+.navbar-logout {
+  padding: 8px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 30px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.navbar-logout:hover {
+  background-color: white;
+  color: #2C3E50;
+  border-color: white;
+}

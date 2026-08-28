@@ -1,58 +1,58 @@
-import { useState } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
+import Login from "./components/auth/Login"
+import Signup from "./components/auth/Signup"
+import Dashboard from "./pages/Dashboard"
+import NoteEditor from './pages/NoteEditor'
+import CategoryView from './pages/CategoryView'
+import NoteView from './pages/NoteView'
 
-function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("Login Details:", {
-      email,
-      password,
-    });
-
-    alert("Login successful!");
-  };
-
-  return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1>Welcome Back</h1>
-        <p>Login to your account</p>
-
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit">Login</button>
-        </form>
-      </div>
-    </div>
-  );
+function ProtectedRoute({ children }) {
+  const isLoggedIn = localStorage.getItem('isLoggedIn')
+  return isLoggedIn === 'true' ? children : <Navigate to="/login" />
 }
 
-export default App;
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login"/>}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/signup" element={<Signup />}/>
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }/>
+        <Route path="/notes/new" element={
+          <ProtectedRoute>
+            <NoteEditor />
+          </ProtectedRoute>
+        } />
+        <Route path="/category/:categoryName" element={
+          <ProtectedRoute>
+            <CategoryView />
+          </ProtectedRoute>
+        } />
+        <Route path="/notes/new/:categoryName" element={
+          <ProtectedRoute>
+            <NoteEditor />
+          </ProtectedRoute>
+        } />
+        <Route path="/notes/edit/:noteId" element={
+          <ProtectedRoute>
+            <NoteEditor />
+          </ProtectedRoute>
+        } />
+        <Route path="/notes/:noteId" element={
+          <ProtectedRoute>
+            <NoteView />
+          </ProtectedRoute>
+        } />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
