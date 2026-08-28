@@ -5,17 +5,23 @@ import Dashboard from '../pages/Dashboard'
 import * as NotesContext from '../context/NotesContext'
 
 const mockNavigate = vi.fn()
+
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate
+  try {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: () => mockNavigate
+    }
+  } catch (err) {
+    console.error('Failed to mock react-router-dom:', err)
+    throw err
   }
 })
 
 describe('Dashboard Component', () => {
   const mockDeleteCategory = vi.fn()
-  const mockAddCategory = vi.fn().mockResolvedValue({ success: true })
+  const mockAddCategory = vi.fn().mockResolvedValue(true)
 
   const sampleCategories = [
     { _id: 'cat1', name: 'General', description: 'All your general notes', isDefault: true, color: '#187171' },

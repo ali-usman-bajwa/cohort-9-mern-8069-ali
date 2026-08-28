@@ -11,7 +11,12 @@ const { expect } = chai
 const testEmail = `testuser_${Date.now()}@test.com`
 
 before(async () => {
-  await connectDB()
+  try {
+    await connectDB()
+  } catch (err) {
+    console.error('Setup error in auth.test.js:', err)
+    throw err
+  }
 })
 
 after(async () => {
@@ -23,6 +28,7 @@ after(async () => {
     }
   } catch (err) {
     console.error('Teardown error in auth.test.js:', err)
+    throw err
   }
 })
 

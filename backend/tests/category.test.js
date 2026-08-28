@@ -14,16 +14,21 @@ let token
 let categoryId
 
 before(async () => {
-  await connectDB()
+  try {
+    await connectDB()
 
-  const res = await chai.request(app)
-    .post('/api/auth/signup')
-    .send({
-      name: 'Cat Test User',
-      email: testEmail,
-      password: '12345678'
-    })
-  token = res.body.token
+    const res = await chai.request(app)
+      .post('/api/auth/signup')
+      .send({
+        name: 'Cat Test User',
+        email: testEmail,
+        password: '12345678'
+      })
+    token = res.body.token
+  } catch (err) {
+    console.error('Setup error in category.test.js:', err)
+    throw err
+  }
 })
 
 after(async () => {
@@ -36,6 +41,7 @@ after(async () => {
     }
   } catch (err) {
     console.error('Teardown error in category.test.js:', err)
+    throw err
   }
 })
 

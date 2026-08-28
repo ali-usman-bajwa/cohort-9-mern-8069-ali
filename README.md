@@ -22,10 +22,15 @@ A full-stack Notes App with user authentication, category management, and rich t
 - Bcrypt password hashing
 - CORS
 
-### Testing & Quality
-- Vitest + React Testing Library (frontend)
-- Mocha/Chai (backend)
-- SonarQube (code quality & coverage)
+### ✅ Backend — Testing
+- Mocha/Chai test suite
+- Auth, Category, Note API tests
+- MongoDB Atlas test integration
+
+### ✅ Frontend — Testing
+- Vitest + React Testing Library
+- Login, Signup, Dashboard, CategoryCard, NewCategoryModal, NoteEditor, NoteView tests
+- All tests passing
 
 ## Security Note
 JWT token is currently stored in localStorage for development purposes.
@@ -43,7 +48,7 @@ In production, HttpOnly cookies should be used instead.
 - Password hint on signup (min 8 characters)
 
 ### ✅ Frontend — Dashboard
-- Navbar with search bar, user avatar, logout button
+- Navbar with search bar and logout button
 - Categories fetched from backend
 - General category — built-in, cannot be deleted
 - User-created categories with 3-dot menu
@@ -73,12 +78,6 @@ In production, HttpOnly cookies should be used instead.
 - All API calls via Axios
 - Real-time UI updates after every operation
 
-### ✅ Frontend — Testing
-- Vitest + React Testing Library
-- Login, Signup, Dashboard, CategoryCard, NewCategoryModal, NoteEditor, NoteView tests
-- 78 tests passing
-- SonarQube coverage configured with lcov reports
-
 ### ✅ Backend — Auth APIs
 - POST /api/auth/signup — register user + auto-create General category
 - POST /api/auth/login — login with JWT token
@@ -105,21 +104,11 @@ In production, HttpOnly cookies should be used instead.
 - Pino HTTP request logging
 - CORS configured
 
-### ✅ Backend — Testing
-- Mocha/Chai test suite
-- Auth, Category, Note API tests
-- MongoDB Atlas test integration
-
-### ✅ Code Quality
-- SonarQube integration
-- Coverage reports via lcov
-- Security hotspots addressed
-- Accessibility improvements (dialog, button roles)
 
 ## Folder Structure
 
 ```text
-cohort-9-mern-8070-amna/
+cohort-9-mern-8069-ali/
   frontend/
     src/
       api/
@@ -148,15 +137,6 @@ cohort-9-mern-8070-amna/
         CategoryView.css
         NoteView.jsx
         NoteView.css
-      tests/
-        setup.js
-        Login.test.jsx
-        Signup.test.jsx
-        Dashboard.test.jsx
-        CategoryCard.test.jsx
-        NewCategoryModal.test.jsx
-        NoteEditor.test.jsx
-        NoteView.test.jsx
       index.css
       App.jsx
       main.jsx
@@ -179,10 +159,6 @@ cohort-9-mern-8070-amna/
         authRoutes.js
         categoryRoutes.js
         noteRoutes.js
-      tests/
-        auth.test.js
-        category.test.js
-        note.test.js
     server.js
     .env.example
 ```
@@ -193,7 +169,7 @@ cohort-9-mern-8070-amna/
 ```bash
 cd backend
 npm install
-# make env file, & add MONGODB_URI, JWT_SECRET, PORT
+# .env file banao — MONGODB_URI, JWT_SECRET, PORT add karo
 npm run dev
 ```
 
@@ -204,26 +180,6 @@ npm run dev
 cd frontend
 npm install
 npm run dev
-```
-
-### Run Tests
-
-#### Frontend
-```bash
-cd frontend
-npm run test
-```
-
-#### Backend
-```bash
-cd backend
-npm test
-```
-
-#### Frontend Coverage
-```bash
-cd frontend
-npm run test -- --coverage
 ```
 
 ## Environment Variables

@@ -11,11 +11,17 @@ vi.mock('../api/axios', () => ({
 }))
 
 const mockNavigate = vi.fn()
+
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate
+  try {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: () => mockNavigate
+    }
+  } catch (err) {
+    console.error('Failed to mock react-router-dom:', err)
+    throw err
   }
 })
 
