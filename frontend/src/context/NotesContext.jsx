@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
 import api from '../api/axios'
 
-const NotesContext = createContext()
+export const NotesContext = createContext()
 
 export function NotesProvider({ children }) {
   const [categories, setCategories] = useState([])
