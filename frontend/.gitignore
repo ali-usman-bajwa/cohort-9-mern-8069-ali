@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# SonarQube
+.scannerwork/
+
+# Test coverage
+coverage/
+frontend/coverage/
+backend/coverage/
+
+.env
+.env.*

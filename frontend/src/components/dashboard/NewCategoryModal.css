@@ -1,52 +1,70 @@
-.new-category-overlay {
+dialog.new-category-overlay[open] {
   position: fixed;
-  inset: 0;
-  background: rgba(44, 62, 80, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 1000;
+  border: none;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+dialog.new-category-overlay::backdrop {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .new-category-modal {
   background: white;
-  border-radius: 16px;
-  padding: 36px;
+  border-radius: 12px;
+  padding: 32px;
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 20px 60px rgba(44, 62, 80, 0.2);
-  border-top: 4px solid #2C3E50;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   box-sizing: border-box;
+  margin: auto;
 }
 
 .new-category-modal h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  color: #2C3E50;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.new-category-modal label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
 }
 
 .new-category-modal input {
-  padding: 13px 16px;
-  border: 2px solid #D5D8DC;
+  padding: 12px 16px;
+  border: 1px solid #cce0e0;
   border-radius: 8px;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s;
-  background-color: #FDFEFE;
-  color: #2C3E50;
+  transition: border 0.2s;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .new-category-modal input:focus {
-  border-color: #2C3E50;
-  box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
-}
-
-.new-category-modal input::placeholder {
-  color: #AEB6BF;
+  border-color: #187171;
 }
 
 .new-category-buttons {
@@ -56,27 +74,44 @@
   margin-top: 4px;
 }
 
+.modal-cancel {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.modal-cancel:hover {
+  border-color: #aaa;
+  color: #333;
+}
+
 .modal-confirm-teal {
-  padding: 10px 24px;
-  background: #2C3E50;
+  padding: 10px 20px;
+  background-color: #187171;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 700;
-  transition: opacity 0.2s;
+  transition: background 0.2s;
 }
 
 .modal-confirm-teal:hover {
-  background: #34495E;
+  background-color: #145f5f;
+}
+
+.modal-confirm-teal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .error-msg {
-  color: #E74C3C;
-  font-size: 12px;
-  padding: 8px;
-  background-color: #FDEDEC;
-  border-radius: 6px;
-  border: 1px solid #F5B7B1;
+  color: #d32f2f;
+  font-size: 13px;
+  margin: 0;
 }

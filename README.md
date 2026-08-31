@@ -22,15 +22,10 @@ A full-stack Notes App with user authentication, category management, and rich t
 - Bcrypt password hashing
 - CORS
 
-### ✅ Backend — Testing
-- Mocha/Chai test suite
-- Auth, Category, Note API tests
-- MongoDB Atlas test integration
-
-### ✅ Frontend — Testing
-- Vitest + React Testing Library
-- Login, Signup, Dashboard, CategoryCard, NewCategoryModal, NoteEditor, NoteView tests
-- All tests passing
+### Testing & Quality
+- Vitest + React Testing Library (frontend)
+- Mocha/Chai (backend)
+- SonarQube (code quality & coverage)
 
 ## Security Note
 JWT token is currently stored in localStorage for development purposes.
@@ -48,7 +43,7 @@ In production, HttpOnly cookies should be used instead.
 - Password hint on signup (min 8 characters)
 
 ### ✅ Frontend — Dashboard
-- Navbar with search bar and logout button
+- Navbar with search bar, user avatar, logout button
 - Categories fetched from backend
 - General category — built-in, cannot be deleted
 - User-created categories with 3-dot menu
@@ -78,6 +73,12 @@ In production, HttpOnly cookies should be used instead.
 - All API calls via Axios
 - Real-time UI updates after every operation
 
+### ✅ Frontend — Testing
+- Vitest + React Testing Library
+- Login, Signup, Dashboard, CategoryCard, NewCategoryModal, NoteEditor, NoteView tests
+- 78 tests passing
+- SonarQube coverage configured with lcov reports
+
 ### ✅ Backend — Auth APIs
 - POST /api/auth/signup — register user + auto-create General category
 - POST /api/auth/login — login with JWT token
@@ -104,11 +105,21 @@ In production, HttpOnly cookies should be used instead.
 - Pino HTTP request logging
 - CORS configured
 
+### ✅ Backend — Testing
+- Mocha/Chai test suite
+- Auth, Category, Note API tests
+- MongoDB Atlas test integration
+
+### ✅ Code Quality
+- SonarQube integration
+- Coverage reports via lcov
+- Security hotspots addressed
+- Accessibility improvements (dialog, button roles)
 
 ## Folder Structure
 
 ```text
-cohort-9-mern-8069-ali/
+cohort-9-mern-8070-amna/
   frontend/
     src/
       api/
@@ -137,6 +148,15 @@ cohort-9-mern-8069-ali/
         CategoryView.css
         NoteView.jsx
         NoteView.css
+      tests/
+        setup.js
+        Login.test.jsx
+        Signup.test.jsx
+        Dashboard.test.jsx
+        CategoryCard.test.jsx
+        NewCategoryModal.test.jsx
+        NoteEditor.test.jsx
+        NoteView.test.jsx
       index.css
       App.jsx
       main.jsx
@@ -159,33 +179,65 @@ cohort-9-mern-8069-ali/
         authRoutes.js
         categoryRoutes.js
         noteRoutes.js
+      tests/
+        auth.test.js
+        category.test.js
+        note.test.js
     server.js
     .env.example
+  sonar-project.properties
 ```
 
 ## How to Run
 
 ### Backend
-```bash
+
 cd backend
 npm install
-# .env file banao — MONGODB_URI, JWT_SECRET, PORT add karo
+# make .env file and add MONGODB_URI, JWT_SECRET, PORT
 npm run dev
-```
+
 
 > Note: MongoDB Atlas or replica set required. Standalone MongoDB does not support transactions.
 
 ### Frontend
-```bash
+
 cd frontend
 npm install
 npm run dev
-```
+
+
+### Run Tests
+
+#### Frontend
+
+cd frontend
+npm run test
+
+
+#### Backend
+
+cd backend
+npm test
+
+
+### Run Tests Before SonarQube Scan
+
+cd frontend && npm run test -- --coverage
+cd ../backend && npm test
+cd ..
+sonar-scanner
+
+
+#### Frontend Coverage
+
+cd frontend
+npm run test -- --coverage
+
 
 ## Environment Variables
 
-```text
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret
 PORT=5000
-```
+VITE_API_URL=http://localhost:5000/api
