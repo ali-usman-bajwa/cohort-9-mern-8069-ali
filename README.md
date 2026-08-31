@@ -115,7 +115,7 @@ In production, HttpOnly cookies should be used instead.
 
 ## Folder Structure
 
-cohort-9-mern-8070-ali/
+cohort-9-mern-8069-ali/
   frontend/
     src/
       api/
