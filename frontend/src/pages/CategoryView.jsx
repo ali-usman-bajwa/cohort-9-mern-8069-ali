@@ -260,9 +260,13 @@ function CategoryView() {
       </div>
 
       {showDeleteModal && (
-        <div className="modal-overlay" role="dialog" aria-modal="true">
+        <dialog 
+          className="modal-overlay" 
+          aria-labelledby="delete-note-title"
+          open
+        >
           <div className="modal">
-            <h3>Delete "{noteToDelete?.title}"?</h3>
+            <h3 id="delete-note-title">Delete "{noteToDelete?.title}"?</h3>
             <p>This note will be permanently deleted.</p>
             <div className="modal-buttons">
               <button type="button" className="modal-cancel" onClick={() => setShowDeleteModal(false)}>
@@ -273,7 +277,7 @@ function CategoryView() {
               </button>
             </div>
           </div>
-        </div>
+        </dialog>
       )}
     </div>
   )

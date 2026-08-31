@@ -7,7 +7,7 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleAdd = async () => {
-    if (isSubmitting) return
+    if (isSubmitting) return  
 
     if (name.trim() === '') {
       setError('Category name cannot be empty.')
@@ -31,7 +31,7 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
       } else {
         setError('Failed to create category. Try again.')
       }
-    } catch (err) {
+    } catch (err) { 
       setError('Failed to create category. Try again.')
     } finally {
       setIsSubmitting(false)
@@ -48,7 +48,7 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
           type="text"
           placeholder="Category name"
           value={name}
-          disabled={isSubmitting}
+          disabled={isSubmitting}  
           onChange={(e) => {
             setName(e.target.value)
             setError('')
@@ -56,10 +56,20 @@ function NewCategoryModal({ onClose, onAdd, existingCategories }) {
         />
         {error && <p className="error-msg">{error}</p>}
         <div className="new-category-buttons">
-          <button type="button" className="modal-cancel" onClick={onClose} disabled={isSubmitting}>
+          <button 
+            type="button" 
+            className="modal-cancel" 
+            onClick={onClose} 
+            disabled={isSubmitting}
+          >
             Cancel
           </button>
-          <button type="button" className="modal-confirm-teal" onClick={handleAdd} disabled={isSubmitting}>
+          <button 
+            type="button" 
+            className="modal-confirm-teal" 
+            onClick={handleAdd} 
+            disabled={isSubmitting}
+          >
             {isSubmitting ? 'Creating...' : 'Create'}
           </button>
         </div>

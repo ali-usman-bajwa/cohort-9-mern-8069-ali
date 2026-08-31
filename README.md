@@ -22,10 +22,15 @@ A full-stack Notes App with user authentication, category management, and rich t
 - Bcrypt password hashing
 - CORS
 
-### Upcoming
-- Mocha/Chai backend tests
-- Jest frontend tests
-- SonarQube integration
+### ✅ Backend — Testing
+- Mocha/Chai test suite
+- Auth, Category, Note API tests
+- MongoDB Atlas test integration
+
+### ✅ Frontend — Testing
+- Vitest + React Testing Library
+- Login, Signup, Dashboard, CategoryCard, NewCategoryModal, NoteEditor, NoteView tests
+- All tests passing
 
 ## Security Note
 JWT token is currently stored in localStorage for development purposes.
@@ -99,10 +104,6 @@ In production, HttpOnly cookies should be used instead.
 - Pino HTTP request logging
 - CORS configured
 
-### 🔄 In Progress
-- Mocha/Chai backend tests
-- Jest frontend tests
-- SonarQube integration
 
 ## Folder Structure
 

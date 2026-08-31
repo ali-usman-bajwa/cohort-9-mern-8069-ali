@@ -15,11 +15,12 @@ function CategoryCard({ name, description, noteCount, isDefault, color, onDelete
 
   return (
     <>
-      <div
+      <button
+        type="button"  // ✅ ADDED (Code 1 se)
         className={`category-card ${isDefault ? 'category-card--default' : ''}`}
         onClick={() => navigate(`/category/${encodeURIComponent(name)}`)}
-        tabIndex={0}
-        role="button"
+        // ❌ tabIndex={0} REMOVED (button already focusable)
+        // ❌ role="button" REMOVED (button already has role)
         onKeyDown={(e) => {
           if (e.target !== e.currentTarget) return
           if (e.key === 'Enter') {
@@ -79,7 +80,7 @@ function CategoryCard({ name, description, noteCount, isDefault, color, onDelete
             {noteCount} notes
           </span>
         </div>
-      </div>
+      </button>
 
       {showModal && (
         <div
@@ -139,4 +140,4 @@ function CategoryCard({ name, description, noteCount, isDefault, color, onDelete
   )
 }
 
-export default CategoryCard;
+export default CategoryCard
