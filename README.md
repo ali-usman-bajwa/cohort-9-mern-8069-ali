@@ -1,6 +1,3 @@
-# cohort-9-mern-8069-ali
-Cohort 9 — MERN (NodeJS+ReactJS) assignment for Ali Usman Bajwa
-
 ## Project Overview
 A full-stack Notes App with user authentication, category management, and rich text note editing. Frontend and backend are both complete and connected.
 
@@ -118,8 +115,7 @@ In production, HttpOnly cookies should be used instead.
 
 ## Folder Structure
 
-```text
-cohort-9-mern-8070-amna/
+cohort-9-mern-8070-ali/
   frontend/
     src/
       api/
@@ -186,7 +182,7 @@ cohort-9-mern-8070-amna/
     server.js
     .env.example
   sonar-project.properties
-```
+
 
 ## How to Run
 
@@ -220,9 +216,7 @@ npm run test
 cd backend
 npm test
 
-
 ### Run Tests Before SonarQube Scan
-
 cd frontend && npm run test -- --coverage
 cd ../backend && npm test
 cd ..
@@ -236,6 +230,7 @@ npm run test -- --coverage
 
 
 ## Environment Variables
+
 
 MONGODB_URI=your_mongodb_uri
 JWT_SECRET=your_jwt_secret

@@ -20,10 +20,12 @@ dialog.new-category-overlay[open] {
   overflow: auto;
 }
 
+/* Dialog backdrop - Only this has background */
 dialog.new-category-overlay::backdrop {
   background: rgba(0, 0, 0, 0.4);
 }
 
+/* Modal box */
 .new-category-modal {
   background: white;
   border-radius: 12px;
